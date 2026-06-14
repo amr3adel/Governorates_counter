@@ -213,7 +213,7 @@ body[data-theme="light"] .toggle-track span {
 
 .counter-number {
   display: block;
-  color: var(--accent);
+  color: var(--orange);
   font-size: 4.2rem;
   font-weight: 850;
   line-height: 1;
@@ -231,7 +231,7 @@ body[data-theme="light"] .toggle-track span {
 
 .counter-percent {
   margin-top: 10px;
-  color: var(--gold);
+  color: var(--orange);
   font-size: 2rem;
   font-weight: 850;
 }
@@ -249,7 +249,7 @@ body[data-theme="light"] .toggle-track span {
   width: 0;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), var(--gold));
+  background: linear-gradient(90deg, var(--orange), var(--orange-dark));
   transition: width 180ms ease;
 }
 
@@ -499,7 +499,7 @@ body[data-theme="light"] .chip.active {
 
 .metric-value {
   min-width: 72px;
-  color: var(--accent);
+  color: var(--orange);
   font-size: 2rem;
   font-weight: 900;
   line-height: 1;
