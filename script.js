@@ -141,12 +141,219 @@ const attractionsByGovernorate = {
   ]
 };
 
+const copy = {
+  en: {
+    title: "Egypt's Governorates Counter",
+    eyebrow: "Arab Republic of Egypt",
+    introDefault: "Track, search, and count Egypt's governorates in one focused view.",
+    introNamed: (name) => `${name}, track your Egypt governorates and plan the next missing stops.`,
+    nameLabel: "Your name",
+    namePlaceholder: "Enter your name",
+    themeDark: "Dark",
+    themeLight: "Light",
+    languageLabel: "العربية",
+    selectedOf: "selected of",
+    startHere: "Start here",
+    welcomeTitle: "Tell us where you've been, then discover what Egypt still has for you.",
+    welcomeBody: "First, mark the governorates you already visited. Then the app will build a focused discovery list for the governorates still waiting for you.",
+    startButton: "Start selecting governorates",
+    stepOne: "Step 1",
+    stepOneTitle: "Select your visited governorates",
+    stepOneBody: "Mark every place you have already visited, then submit to unlock your Egypt discovery plan.",
+    searchGovernorates: "Search governorates",
+    searchGovernoratesPlaceholder: "Search by name or region",
+    selectAll: "Select all",
+    clear: "Clear",
+    shown: (count) => `${count} ${count === 1 ? "governorate" : "governorates"} shown`,
+    submitVisited: "Submit visited governorates",
+    travelPlan: "Travel plan",
+    cleanProgress: "Clean progress view",
+    left: (count) => `${count} left`,
+    visited: "visited",
+    stillMissing: "still missing",
+    regionsStarted: "regions started",
+    nextUp: "Next up",
+    missingGovernorates: "Missing governorates",
+    allVisited: "All governorates are marked visited.",
+    stepTwo: "Step 2",
+    transitionTitle: "Great, here is what you are missing.",
+    transitionEmpty: "You did not mark any governorates yet, so the discovery plan will include all of Egypt.",
+    transitionDone: (visited, total, missing) => `You visited ${visited} of ${total} governorates. Your plan will focus on the ${missing} still missing.`,
+    editVisited: "Edit visited governorates",
+    showPlan: "Show my discovery plan",
+    logoSmall: "Let's discover",
+    logoBig: "EGYPT",
+    phaseTwo: "Phase two",
+    discoverTitle: "Places waiting for you",
+    discoverCopyDone: "You marked every governorate visited. The full discovery list is complete.",
+    discoverCopy: (count) => `Historical and touristic highlights across ${count} unvisited governorates.`,
+    visitedGovernorates: "visited governorates",
+    stillWaiting: "still waiting",
+    completed: "completed",
+    searchPlaces: "Search places",
+    searchPlacesPlaceholder: "Search by governorate, place, or type",
+    places: (count) => `${count} ${count === 1 ? "place" : "places"}`,
+    beautifulWork: "Beautiful work. Every governorate is already marked visited.",
+    noPlaces: "No places match this search yet.",
+    learnMore: "Learn more",
+    loadingImage: "Loading image",
+    imageUnavailable: "Image unavailable",
+    regionAll: "All"
+  },
+  ar: {
+    title: "عداد محافظات مصر",
+    eyebrow: "جمهورية مصر العربية",
+    introDefault: "علّم المحافظات اللي زرتها، وسيبنا نطلعلك إيه لسه مستنيك في مصر.",
+    introNamed: (name) => `${name}، علّم المحافظات اللي زرتها ونجهزلك الأماكن اللي لسه مستنياك.`,
+    nameLabel: "اسمك",
+    namePlaceholder: "اكتب اسمك",
+    themeDark: "غامق",
+    themeLight: "فاتح",
+    languageLabel: "English",
+    selectedOf: "متعلم من",
+    startHere: "ابدأ من هنا",
+    welcomeTitle: "قولنا رحت فين، وإحنا نوريك مصر لسه مخبيالك إيه.",
+    welcomeBody: "الأول علّم المحافظات اللي زرتها. بعد كده هنطلعلك خطة اكتشاف مركزة للمحافظات اللي لسه مارحتهاش.",
+    startButton: "ابدأ اختيار المحافظات",
+    stepOne: "الخطوة ١",
+    stepOneTitle: "اختار المحافظات اللي زرتها",
+    stepOneBody: "علّم كل محافظة رحتها قبل كده، وبعدين دوس إرسال عشان نفتحلك خطة اكتشاف مصر.",
+    searchGovernorates: "دور في المحافظات",
+    searchGovernoratesPlaceholder: "دور باسم المحافظة أو المنطقة",
+    selectAll: "اختار الكل",
+    clear: "امسح الاختيارات",
+    shown: (count) => `${count} محافظة ظاهرة`,
+    submitVisited: "إرسال المحافظات اللي زرتها",
+    travelPlan: "خطة السفر",
+    cleanProgress: "ملخص تقدمك",
+    left: (count) => count === 1 ? "واحدة فاضلة" : `${count} فاضلين`,
+    visited: "زرتها",
+    stillMissing: "لسه ناقصين",
+    regionsStarted: "مناطق بدأت فيها",
+    nextUp: "الجاي",
+    missingGovernorates: "محافظات لسه مارحتهاش",
+    allVisited: "كل المحافظات متعلمة كأنها اتزارت.",
+    stepTwo: "الخطوة ٢",
+    transitionTitle: "جامد، دي الحاجات اللي لسه ناقصاك.",
+    transitionEmpty: "إنت لسه معلمتش أي محافظة، فهنعرضلك خطة اكتشاف لكل مصر.",
+    transitionDone: (visited, total, missing) => `إنت زرت ${visited} من ${total} محافظة. الخطة هتركز على ${missing} محافظة لسه ناقصين.`,
+    editVisited: "عدّل المحافظات اللي زرتها",
+    showPlan: "اعرض خطة الاكتشاف",
+    logoSmall: "يلا نكتشف",
+    logoBig: "مصر",
+    phaseTwo: "المرحلة التانية",
+    discoverTitle: "أماكن مستنياك",
+    discoverCopyDone: "إنت معلم كل المحافظات كأنها اتزارت. قائمة الاكتشاف كده كاملة.",
+    discoverCopy: (count) => `أماكن تاريخية وسياحية في ${count} محافظة لسه مارحتهاش.`,
+    visitedGovernorates: "محافظات زرتها",
+    stillWaiting: "لسه مستنياك",
+    completed: "خلصت",
+    searchPlaces: "دور في الأماكن",
+    searchPlacesPlaceholder: "دور باسم المحافظة أو المكان أو النوع",
+    places: (count) => count === 1 ? "مكان واحد" : `${count} مكان`,
+    beautifulWork: "عظمة. إنت معلم كل المحافظات كأنها اتزارت.",
+    noPlaces: "مفيش أماكن مطابقة للبحث ده.",
+    learnMore: "اعرف أكتر",
+    loadingImage: "الصورة بتتحمل",
+    imageUnavailable: "الصورة مش متاحة",
+    regionAll: "الكل"
+  }
+};
+
+const governorateArabic = {
+  Alexandria: { name: "الإسكندرية", region: "البحر المتوسط" },
+  Aswan: { name: "أسوان", region: "الصعيد" },
+  Asyut: { name: "أسيوط", region: "الصعيد" },
+  Beheira: { name: "البحيرة", region: "الدلتا" },
+  "Beni Suef": { name: "بني سويف", region: "الصعيد" },
+  Cairo: { name: "القاهرة", region: "القاهرة الكبرى" },
+  Dakahlia: { name: "الدقهلية", region: "الدلتا" },
+  Damietta: { name: "دمياط", region: "الدلتا" },
+  Faiyum: { name: "الفيوم", region: "الصعيد" },
+  Gharbia: { name: "الغربية", region: "الدلتا" },
+  Giza: { name: "الجيزة", region: "القاهرة الكبرى" },
+  Ismailia: { name: "الإسماعيلية", region: "القناة" },
+  "Kafr El Sheikh": { name: "كفر الشيخ", region: "الدلتا" },
+  Luxor: { name: "الأقصر", region: "الصعيد" },
+  Matruh: { name: "مطروح", region: "المحافظات الحدودية" },
+  Minya: { name: "المنيا", region: "الصعيد" },
+  Monufia: { name: "المنوفية", region: "الدلتا" },
+  "New Valley": { name: "الوادي الجديد", region: "المحافظات الحدودية" },
+  "North Sinai": { name: "شمال سيناء", region: "سيناء" },
+  "Port Said": { name: "بورسعيد", region: "القناة" },
+  Qalyubia: { name: "القليوبية", region: "القاهرة الكبرى" },
+  Qena: { name: "قنا", region: "الصعيد" },
+  "Red Sea": { name: "البحر الأحمر", region: "المحافظات الحدودية" },
+  Sharqia: { name: "الشرقية", region: "الدلتا" },
+  Sohag: { name: "سوهاج", region: "الصعيد" },
+  "South Sinai": { name: "جنوب سيناء", region: "سيناء" },
+  Suez: { name: "السويس", region: "القناة" }
+};
+
+const attractionArabic = {
+  "Bibliotheca Alexandrina": { name: "مكتبة الإسكندرية", type: "ثقافة", description: "معلم حديث ومهم بيعكس روح الإسكندرية كمدينة معرفة وبحر وتاريخ." },
+  "Qaitbay Citadel": { name: "قلعة قايتباي", type: "تاريخي", description: "قلعة على البحر في مكان قريب من فنار الإسكندرية القديم، ومكانها تحفة للتمشية والصور." },
+  "Philae Temple": { name: "معبد فيلة", type: "تاريخي", description: "معبد جميل على جزيرة، من أهدى وأحلى أماكن أسوان اللي بتحسسك بعظمة التاريخ." },
+  "Nubian Museum": { name: "متحف النوبة", type: "ثقافة", description: "مكان مرتب وهادي يعرّفك على تاريخ وثقافة النوبة بشكل قريب للقلب." },
+  "Meir Tombs": { name: "مقابر مير", type: "تاريخي", description: "مقابر قديمة فيها رسومات من الحياة اليومية في مصر زمان." },
+  "Al-Muharraq Monastery": { name: "دير المحرق", type: "روحاني", description: "من أهم الأديرة القبطية في مصر ومكان له قيمة روحية وتاريخية كبيرة." },
+  Rosetta: { name: "رشيد", type: "تراث", description: "مدينة دلتاوية جميلة مشهورة ببيوتها القديمة وحكاية حجر رشيد." },
+  "Wadi El Natrun": { name: "وادي النطرون", type: "روحاني", description: "منطقة أديرة صحراوية مهمة جدًا في التاريخ القبطي المصري." },
+  "Meidum Pyramid": { name: "هرم ميدوم", type: "تاريخي", description: "هرم شكله مختلف ومهم في رحلة تطور بناء الأهرامات." },
+  "Wadi Sannur Cave": { name: "كهف وادي سنور", type: "طبيعة", description: "كهف محمي وفيه تكوينات جيرية نادرة ومميزة." },
+  "The Egyptian Museum": { name: "المتحف المصري", type: "متحف", description: "محطة أساسية في القاهرة لو عايز تشوف كنوز وآثار مصر القديمة." },
+  "Khan el-Khalili": { name: "خان الخليلي", type: "تراث", description: "منطقة تاريخية مليانة محلات وحرف وقهاوي وروح القاهرة القديمة." },
+  "Dar Ibn Lockman": { name: "دار ابن لقمان", type: "تاريخي", description: "معلم في المنصورة مرتبط بحكاية أسر لويس التاسع وقت الحملة الصليبية." },
+  "Lake Manzala": { name: "بحيرة المنزلة", type: "طبيعة", description: "بحيرة كبيرة في الشمال ومهمة للطيور والصيد وحياة الدلتا." },
+  "Ras El Bar": { name: "رأس البر", type: "ساحلي", description: "مصيف جميل عند نقطة التقاء النيل بالبحر المتوسط." },
+  "Damietta Old City": { name: "دمياط القديمة", type: "تراث", description: "مدينة هادية معروفة بالأثاث والنجارة وروح البحر والنيل." },
+  "Wadi El Rayan": { name: "وادي الريان", type: "طبيعة", description: "بحيرات وشلالات ورمل وصحراء، مكان حلو جدًا للخروجات والتصوير." },
+  "Tunis Village": { name: "قرية تونس", type: "ثقافة", description: "قرية على البحيرة مشهورة بالفخار والهدوء والبيوت اللطيفة." },
+  "El Sayed El Badawi Mosque": { name: "مسجد السيد البدوي", type: "روحاني", description: "من أشهر معالم طنطا والدلتا، ومكان له حضور شعبي كبير." },
+  "Tanta Museum": { name: "متحف طنطا", type: "متحف", description: "متحف إقليمي بيعرض جزء من تاريخ وآثار الدلتا." },
+  "Giza Pyramid Complex": { name: "أهرامات الجيزة", type: "تاريخي", description: "أيقونة مصر الأولى: الأهرامات وأبو الهول ومنظر الصحراء العظيم." },
+  Saqqara: { name: "سقارة", type: "تاريخي", description: "منطقة أثرية واسعة فيها هرم زوسر المدرج وحكايات كتير من مصر القديمة." },
+  "Suez Canal": { name: "قناة السويس", type: "معلم", description: "مجرى عالمي مهم وجزء أساسي من شخصية مدن القناة." },
+  "Lake Timsah": { name: "بحيرة التمساح", type: "طبيعة", description: "مكان لطيف في الإسماعيلية بإطلالة هادية وروح مدينة القناة." },
+  "Burullus Lake": { name: "بحيرة البرلس", type: "طبيعة", description: "محمية وبحيرة ساحلية مهمة للطيور والصيد." },
+  Desouk: { name: "دسوق", type: "تراث", description: "مدينة دلتاوية لها طابع شعبي وروح دينية وتراثية." },
+  "Karnak Temple Complex": { name: "معابد الكرنك", type: "تاريخي", description: "واحد من أعظم مجمعات المعابد في مصر، ضخم ومبهر فعلًا." },
+  "Valley of the Kings": { name: "وادي الملوك", type: "تاريخي", description: "مقابر ملوك الدولة الحديثة ومكان أساسي لأي زيارة للأقصر." },
+  "Siwa Oasis": { name: "واحة سيوة", type: "طبيعة", description: "واحة ساحرة فيها بحيرات ملح ونخيل وعمارة طينية ورحلات صحرا." },
+  "Cleopatra's Beach": { name: "شاطئ كليوباترا", type: "ساحلي", description: "مكان معروف في مرسى مطروح بمياه صافية وجو بحر متوسط جميل." },
+  "Beni Hasan Tombs": { name: "مقابر بني حسن", type: "تاريخي", description: "مقابر صخرية برسومات واضحة من الحياة والرياضة في مصر القديمة." },
+  "Tell el-Amarna": { name: "تل العمارنة", type: "تاريخي", description: "بقايا عاصمة أخناتون القديمة ومكان مهم جدًا لعشاق التاريخ." },
+  "Shebin El Kom Museum": { name: "متحف شبين الكوم", type: "متحف", description: "محطة ثقافية للتعرف على تاريخ المنوفية والمنطقة." },
+  Quesna: { name: "قويسنا", type: "تراث", description: "منطقة دلتاوية هادية وفيها لمحات من التاريخ المحلي." },
+  "Dakhla Oasis": { name: "واحة الداخلة", type: "طبيعة", description: "واحة فيها قرى قديمة ونخيل وطرق صحراوية وتجربة مختلفة." },
+  "Kharga Oasis": { name: "واحة الخارجة", type: "طبيعة", description: "واحة في الصحراء الغربية فيها معابد ومتاحف وتاريخ طرق القوافل." },
+  "El Arish": { name: "العريش", type: "ساحلي", description: "مدينة شمال سيناء على البحر، معروفة بالنخيل والشواطئ والأسواق." },
+  "Lake Bardawil": { name: "بحيرة البردويل", type: "طبيعة", description: "بحيرة ساحلية محمية ومشهورة بالطيور وجمال شمال سيناء." },
+  "Port Said Lighthouse": { name: "فنار بورسعيد", type: "معلم", description: "رمز تاريخي لمدينة بورسعيد وروح القناة." },
+  "Suez Canal Authority Buildings": { name: "مباني هيئة قناة السويس", type: "تراث", description: "عمارة مميزة من زمن القناة وبتدي بورسعيد شكلها الخاص." },
+  "Shubra El Kheima Palace Area": { name: "منطقة قصور شبرا الخيمة", type: "تراث", description: "منطقة على مدخل القاهرة فيها لمحات من التراث النيلي والعمراني." },
+  Banha: { name: "بنها", type: "محلي", description: "مدينة دلتاوية نشيطة على فرع النيل، لطيفة لاكتشاف الحياة اليومية." },
+  "Dendera Temple Complex": { name: "معبد دندرة", type: "تاريخي", description: "معبد محفوظ بشكل جميل ومشهور بمعبد حتحور وتفاصيله المبهرة." },
+  Qift: { name: "قفط", type: "تاريخي", description: "مدينة قديمة مرتبطة بطرق التجارة بين النيل والبحر الأحمر." },
+  Hurghada: { name: "الغردقة", type: "ساحلي", description: "بحر أحمر وغوص وسنوركل وشواطئ وجزر، اختيار سهل وممتع." },
+  "El Gouna": { name: "الجونة", type: "ساحلي", description: "مدينة لاجونات ومارينا ورياضات مائية وجو رايق." },
+  Bubastis: { name: "تل بسطة", type: "تاريخي", description: "مدينة باستت القديمة قرب الزقازيق، وفيها بقايا فرعونية مهمة." },
+  "Zagazig Museum": { name: "متحف الزقازيق", type: "متحف", description: "متحف إقليمي مرتبط بتاريخ الشرقية وآثار الدلتا." },
+  "White Monastery": { name: "الدير الأبيض", type: "روحاني", description: "معلم قبطي مهم جدًا وله تاريخ قوي في سوهاج." },
+  Akhmim: { name: "أخميم", type: "تاريخي", description: "مدينة قديمة فيها آثار وحكايات مرتبطة ببنوبوليس القديمة." },
+  "Saint Catherine's Monastery": { name: "دير سانت كاترين", type: "روحاني", description: "دير عالمي عند جبل موسى، مكان روحاني وتاريخي من الطراز الأول." },
+  "Ras Muhammad National Park": { name: "محمية رأس محمد", type: "طبيعة", description: "شعاب مرجانية ومياه صافية ومناظر بحر أحمر صعبة تتنسي." },
+  "Ain Sokhna": { name: "العين السخنة", type: "ساحلي", description: "أقرب هروب للبحر الأحمر من القاهرة، شواطئ وجبال وجو سريع ولطيف." },
+  "Suez National Museum": { name: "متحف السويس", type: "متحف", description: "متحف بيحكي عن السويس والقناة وتاريخ المنطقة." }
+};
+
 const savedState = loadState();
 const state = {
   selected: new Set(savedState.selected),
   query: "",
   discoverQuery: "",
   activePhase: savedState.activePhase || "welcome",
+  language: savedState.language || "en",
   region: "All",
   name: savedState.name,
   theme: savedState.theme || "dark"
@@ -172,6 +379,8 @@ const submitVisitedButton = document.querySelector("#submitVisitedButton");
 const backToVisitedButton = document.querySelector("#backToVisitedButton");
 const showDiscoverButton = document.querySelector("#showDiscoverButton");
 const editVisitedButton = document.querySelector("#editVisitedButton");
+const languageToggle = document.querySelector("#languageToggle");
+const languageLabel = document.querySelector("#languageLabel");
 const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
 const introText = document.querySelector("#introText");
@@ -198,12 +407,13 @@ function loadState() {
       selected: Array.isArray(value?.selected) ? value.selected : [],
       name: value?.name || "",
       theme: value?.theme === "light" ? "light" : "dark",
+      language: value?.language === "ar" ? "ar" : "en",
       activePhase: ["welcome", "counter", "transition", "discover"].includes(value?.activePhase)
         ? value.activePhase
         : "welcome"
     };
   } catch {
-    return { selected: [], name: "", theme: "dark", activePhase: "welcome" };
+    return { selected: [], name: "", theme: "dark", language: "en", activePhase: "welcome" };
   }
 }
 
@@ -214,19 +424,49 @@ function saveState() {
       selected: [...state.selected],
       name: state.name,
       theme: state.theme,
+      language: state.language,
       activePhase: state.activePhase
     })
   );
+}
+
+function t(key, ...args) {
+  const value = copy[state.language][key];
+  return typeof value === "function" ? value(...args) : value;
+}
+
+function isArabic() {
+  return state.language === "ar";
+}
+
+function displayGovernorate(governorate) {
+  if (!isArabic()) {
+    return { name: governorate.name, region: governorate.region };
+  }
+  return governorateArabic[governorate.name] || { name: governorate.name, region: governorate.region };
+}
+
+function displayAttraction(attraction) {
+  if (!isArabic()) return attraction;
+  return { ...attraction, ...(attractionArabic[attraction.name] || {}) };
+}
+
+function regionLabelArabic(region) {
+  const governorate = governorates.find((item) => item.region === region);
+  return governorate ? displayGovernorate(governorate).region : region;
 }
 
 function getFilteredGovernorates() {
   const query = state.query.trim().toLowerCase();
 
   return governorates.filter((governorate) => {
+    const display = displayGovernorate(governorate);
     const matchesRegion = state.region === "All" || governorate.region === state.region;
     const matchesQuery =
       governorate.name.toLowerCase().includes(query) ||
-      governorate.region.toLowerCase().includes(query);
+      governorate.region.toLowerCase().includes(query) ||
+      display.name.toLowerCase().includes(query) ||
+      display.region.toLowerCase().includes(query);
 
     return matchesRegion && matchesQuery;
   });
@@ -250,7 +490,20 @@ function getDiscoverCards() {
     }))
   ).filter((card) => {
     if (!query) return true;
-    return [card.name, card.type, card.description, card.governorate, card.region]
+    const display = displayAttraction(card);
+    const governorateDisplay = governorateArabic[card.governorate] || {};
+    return [
+      card.name,
+      card.type,
+      card.description,
+      card.governorate,
+      card.region,
+      display.name,
+      display.type,
+      display.description,
+      governorateDisplay.name,
+      governorateDisplay.region
+    ]
       .some((value) => value.toLowerCase().includes(query));
   });
 }
@@ -286,7 +539,9 @@ function renderFilters() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `chip${state.region === region ? " active" : ""}`;
-    button.textContent = region;
+    button.textContent = region === "All"
+      ? t("regionAll")
+      : (isArabic() ? regionLabelArabic(region) : region);
     button.addEventListener("click", () => {
       state.region = region;
       render();
@@ -301,6 +556,7 @@ function renderGovernorates() {
 
   filtered.forEach((governorate) => {
     const isSelected = state.selected.has(governorate.name);
+    const display = displayGovernorate(governorate);
     const label = document.createElement("label");
     label.className = `governorate-card${isSelected ? " selected" : ""}`;
 
@@ -316,16 +572,15 @@ function renderGovernorates() {
     const region = document.createElement("span");
     name.className = "governorate-name";
     region.className = "governorate-region";
-    name.textContent = governorate.name;
-    region.textContent = governorate.region;
+    name.textContent = display.name;
+    region.textContent = display.region;
     text.append(name, region);
 
     label.append(checkbox, text);
     grid.appendChild(label);
   });
 
-  const noun = filtered.length === 1 ? "governorate" : "governorates";
-  listStatus.textContent = `${filtered.length} ${noun} shown`;
+  listStatus.textContent = t("shown", filtered.length);
 }
 
 function renderCounter() {
@@ -334,6 +589,7 @@ function renderCounter() {
 
   selectedCount.textContent = count;
   percentageCount.textContent = `${percentage}%`;
+  document.querySelector(".counter-label").innerHTML = `${t("selectedOf")} <strong id="totalCount">${governorates.length}</strong>`;
   progressBar.style.width = `${percentage}%`;
 }
 
@@ -347,8 +603,54 @@ function renderIntro() {
 function renderTheme() {
   document.body.dataset.theme = state.theme;
   const isDark = state.theme === "dark";
-  themeLabel.textContent = isDark ? "Dark" : "Light";
+  themeLabel.textContent = isDark ? t("themeDark") : t("themeLight");
   themeToggle.setAttribute("aria-pressed", String(isDark));
+}
+
+function renderLanguage() {
+  document.documentElement.lang = state.language;
+  document.documentElement.dir = isArabic() ? "rtl" : "ltr";
+  document.body.dataset.language = state.language;
+  languageLabel.textContent = t("languageLabel");
+  languageToggle.setAttribute("aria-pressed", String(isArabic()));
+}
+
+function renderStaticCopy() {
+  document.title = t("title");
+  document.querySelector(".summary-panel .eyebrow").textContent = t("eyebrow");
+  document.querySelector("#app-title").textContent = t("title");
+  document.querySelector(".name-field span").textContent = t("nameLabel");
+  nameInput.placeholder = t("namePlaceholder");
+  document.querySelector("#welcomeView .eyebrow").textContent = t("startHere");
+  document.querySelector("#welcome-title").textContent = t("welcomeTitle");
+  document.querySelector("#welcomeView .welcome-copy p:last-child").textContent = t("welcomeBody");
+  startJourneyButton.textContent = t("startButton");
+  document.querySelector(".step-number").textContent = t("stepOne");
+  document.querySelector(".step-banner h2").textContent = t("stepOneTitle");
+  document.querySelector(".step-banner p").textContent = t("stepOneBody");
+  document.querySelector(".toolbar .search-field span").textContent = t("searchGovernorates");
+  searchInput.placeholder = t("searchGovernoratesPlaceholder");
+  selectAllButton.textContent = t("selectAll");
+  clearButton.textContent = t("clear");
+  submitVisitedButton.textContent = t("submitVisited");
+  document.querySelector(".insights-panel .eyebrow").textContent = t("travelPlan");
+  document.querySelector(".insights-panel h2").textContent = t("cleanProgress");
+  document.querySelectorAll(".metric-label")[0].textContent = t("visited");
+  document.querySelectorAll(".metric-label")[1].textContent = t("stillMissing");
+  document.querySelectorAll(".metric-label")[2].textContent = t("regionsStarted");
+  document.querySelector(".next-card .eyebrow").textContent = t("nextUp");
+  document.querySelector(".next-card h2").textContent = t("missingGovernorates");
+  document.querySelector("#transitionView .eyebrow").textContent = t("stepTwo");
+  document.querySelector("#transition-title").textContent = t("transitionTitle");
+  backToVisitedButton.textContent = t("editVisited");
+  showDiscoverButton.textContent = t("showPlan");
+  document.querySelector(".discover-logo span").textContent = t("logoSmall");
+  document.querySelector(".discover-logo strong").textContent = t("logoBig");
+  document.querySelector(".discover-header .eyebrow").textContent = t("phaseTwo");
+  document.querySelector("#discover-title").textContent = t("discoverTitle");
+  editVisitedButton.textContent = t("editVisited");
+  document.querySelector(".discover-toolbar .search-field span").textContent = t("searchPlaces");
+  discoverSearchInput.placeholder = t("searchPlacesPlaceholder");
 }
 
 function renderPhase() {
@@ -361,8 +663,8 @@ function renderTransition() {
   const visited = state.selected.size;
   const missing = governorates.length - visited;
   transitionCopy.textContent = visited === 0
-    ? "You did not mark any governorates yet, so the discovery plan will include all of Egypt."
-    : `You visited ${visited} of ${governorates.length} governorates. Your plan will focus on the ${missing} still missing.`;
+    ? t("transitionEmpty")
+    : t("transitionDone", visited, governorates.length, missing);
 }
 
 function renderInsights() {
@@ -375,6 +677,7 @@ function renderInsights() {
   );
 
   remainingPill.textContent = remaining === 1 ? "1 left" : `${remaining} left`;
+  remainingPill.textContent = t("left", remaining);
   visitedMetric.textContent = visited;
   leftMetric.textContent = remaining;
   regionMetric.textContent = `${startedRegions.length}/${regions.length}`;
@@ -383,16 +686,17 @@ function renderInsights() {
   if (missing.length === 0) {
     const empty = document.createElement("p");
     empty.className = "empty-state";
-    empty.textContent = "All governorates are marked visited.";
+    empty.textContent = t("allVisited");
     nextList.appendChild(empty);
     return;
   }
 
   missing.slice(0, 8).forEach((governorate) => {
     const item = document.createElement("button");
+    const display = displayGovernorate(governorate);
     item.className = "next-item";
     item.type = "button";
-    item.innerHTML = `<strong>${governorate.name}</strong><span>${governorate.region}</span>`;
+    item.innerHTML = `<strong>${display.name}</strong><span>${display.region}</span>`;
     item.addEventListener("click", () => updateSelection(governorate.name, true));
     nextList.appendChild(item);
   });
@@ -404,27 +708,28 @@ function renderDiscover() {
   const visited = state.selected.size;
   const missingCount = getMissingGovernorates().length;
   discoverGrid.innerHTML = "";
-  discoverCount.textContent = cards.length === 1 ? "1 place" : `${cards.length} places`;
+  discoverCount.textContent = t("places", cards.length);
   discoverSummary.innerHTML = `
-    <div><strong>${visited}</strong><span>visited governorates</span></div>
-    <div><strong>${missingCount}</strong><span>still waiting</span></div>
-    <div><strong>${Math.round((visited / governorates.length) * 100)}%</strong><span>completed</span></div>
+    <div><strong>${visited}</strong><span>${t("visitedGovernorates")}</span></div>
+    <div><strong>${missingCount}</strong><span>${t("stillWaiting")}</span></div>
+    <div><strong>${Math.round((visited / governorates.length) * 100)}%</strong><span>${t("completed")}</span></div>
   `;
   discoverCopy.textContent = missingCount === 0
-    ? "You marked every governorate visited. The full discovery list is complete."
-    : `Historical and touristic highlights across ${missingCount} unvisited governorates.`;
+    ? t("discoverCopyDone")
+    : t("discoverCopy", missingCount);
 
   if (cards.length === 0) {
     const empty = document.createElement("p");
     empty.className = "empty-state discover-empty";
     empty.textContent = missingCount === 0
-      ? "Beautiful work. Every governorate is already marked visited."
-      : "No places match this search yet.";
+      ? t("beautifulWork")
+      : t("noPlaces");
     discoverGrid.appendChild(empty);
     return;
   }
 
   groups.forEach((group) => {
+    const groupDisplay = governorateArabic[group.governorate] || { name: group.governorate, region: group.region };
     const section = document.createElement("section");
     section.className = "governorate-discover-group";
 
@@ -432,23 +737,26 @@ function renderDiscover() {
     heading.className = "group-heading";
     heading.innerHTML = `
       <div>
-        <span>${group.region}</span>
-        <h3>${group.governorate}</h3>
+        <span>${isArabic() ? groupDisplay.region : group.region}</span>
+        <h3>${isArabic() ? groupDisplay.name : group.governorate}</h3>
       </div>
-      <strong>${group.places.length} places</strong>
+      <strong>${t("places", group.places.length)}</strong>
     `;
 
     const list = document.createElement("div");
     list.className = "group-card-grid";
 
     group.places.forEach((card) => {
+      const display = displayAttraction(card);
+      const govDisplay = governorateArabic[card.governorate] || { name: card.governorate };
       const article = document.createElement("article");
       article.className = `discover-card${card.featured ? " featured" : ""}`;
 
       const media = document.createElement("div");
       media.className = "discover-media loading";
+      media.dataset.loadingLabel = t("loadingImage");
       const image = document.createElement("img");
-      image.alt = card.name;
+      image.alt = display.name;
       image.loading = "lazy";
       image.dataset.wikiTitle = getWikipediaTitle(card.url);
       media.appendChild(image);
@@ -457,23 +765,23 @@ function renderDiscover() {
       meta.className = "discover-meta";
 
       const type = document.createElement("span");
-      type.textContent = card.type;
+      type.textContent = display.type;
 
       const governorate = document.createElement("span");
-      governorate.textContent = card.governorate;
+      governorate.textContent = isArabic() ? govDisplay.name : card.governorate;
       meta.append(type, governorate);
 
       const title = document.createElement("h4");
-      title.textContent = card.name;
+      title.textContent = display.name;
 
       const description = document.createElement("p");
-      description.textContent = card.description;
+      description.textContent = display.description;
 
       const link = document.createElement("a");
       link.href = card.url;
       link.target = "_blank";
       link.rel = "noreferrer";
-      link.textContent = "Learn more";
+      link.textContent = t("learnMore");
 
       article.append(media, meta, title, description, link);
       list.appendChild(article);
@@ -530,6 +838,7 @@ function applyThumbnail(image, media, source) {
   media.classList.remove("loading");
   if (!source) {
     media.classList.add("empty-media");
+    media.dataset.loadingLabel = t("imageUnavailable");
     return;
   }
   image.src = source;
@@ -547,6 +856,8 @@ function updateSelection(name, isSelected) {
 }
 
 function render() {
+  renderLanguage();
+  renderStaticCopy();
   renderTheme();
   renderPhase();
   renderTransition();
@@ -573,6 +884,12 @@ themeToggle.addEventListener("click", () => {
   state.theme = state.theme === "dark" ? "light" : "dark";
   saveState();
   renderTheme();
+});
+
+languageToggle.addEventListener("click", () => {
+  state.language = isArabic() ? "en" : "ar";
+  saveState();
+  render();
 });
 
 startJourneyButton.addEventListener("click", () => {
