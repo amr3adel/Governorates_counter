@@ -146,7 +146,7 @@ const state = {
   selected: new Set(savedState.selected),
   query: "",
   discoverQuery: "",
-  activeTab: "counter",
+  activePhase: savedState.activePhase || "counter",
   region: "All",
   name: savedState.name,
   theme: savedState.theme || "dark"
@@ -164,6 +164,8 @@ const listStatus = document.querySelector("#listStatus");
 const regionFilters = document.querySelector("#regionFilters");
 const selectAllButton = document.querySelector("#selectAllButton");
 const clearButton = document.querySelector("#clearButton");
+const submitVisitedButton = document.querySelector("#submitVisitedButton");
+const editVisitedButton = document.querySelector("#editVisitedButton");
 const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
 const introText = document.querySelector("#introText");
@@ -175,8 +177,7 @@ const nextList = document.querySelector("#nextList");
 const discoverGrid = document.querySelector("#discoverGrid");
 const discoverCount = document.querySelector("#discoverCount");
 const discoverCopy = document.querySelector("#discoverCopy");
-const tabButtons = document.querySelectorAll(".tab-button");
-const tabViews = document.querySelectorAll(".tab-view");
+const phaseViews = document.querySelectorAll(".phase-view");
 
 totalCount.textContent = governorates.length;
 nameInput.value = state.name;
@@ -188,10 +189,11 @@ function loadState() {
     return {
       selected: Array.isArray(value?.selected) ? value.selected : [],
       name: value?.name || "",
-      theme: value?.theme === "light" ? "light" : "dark"
+      theme: value?.theme === "light" ? "light" : "dark",
+      activePhase: value?.activePhase === "discover" ? "discover" : "counter"
     };
   } catch {
-    return { selected: [], name: "", theme: "dark" };
+    return { selected: [], name: "", theme: "dark", activePhase: "counter" };
   }
 }
 
@@ -201,7 +203,8 @@ function saveState() {
     JSON.stringify({
       selected: [...state.selected],
       name: state.name,
-      theme: state.theme
+      theme: state.theme,
+      activePhase: state.activePhase
     })
   );
 }
@@ -315,15 +318,9 @@ function renderTheme() {
   themeToggle.setAttribute("aria-pressed", String(isDark));
 }
 
-function renderTabs() {
-  tabButtons.forEach((button) => {
-    const isActive = button.dataset.tab === state.activeTab;
-    button.classList.toggle("active", isActive);
-    button.setAttribute("aria-selected", String(isActive));
-  });
-
-  tabViews.forEach((view) => {
-    view.classList.toggle("active", view.id === `${state.activeTab}View`);
+function renderPhase() {
+  phaseViews.forEach((view) => {
+    view.classList.toggle("active", view.id === `${state.activePhase}View`);
   });
 }
 
@@ -422,7 +419,7 @@ function updateSelection(name, isSelected) {
 
 function render() {
   renderTheme();
-  renderTabs();
+  renderPhase();
   renderIntro();
   renderFilters();
   renderGovernorates();
@@ -442,22 +439,29 @@ nameInput.addEventListener("input", (event) => {
   renderIntro();
 });
 
-discoverSearchInput.addEventListener("input", (event) => {
-  state.discoverQuery = event.target.value;
-  renderDiscover();
-});
-
-tabButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    state.activeTab = button.dataset.tab;
-    renderTabs();
-  });
-});
-
 themeToggle.addEventListener("click", () => {
   state.theme = state.theme === "dark" ? "light" : "dark";
   saveState();
   renderTheme();
+});
+
+submitVisitedButton.addEventListener("click", () => {
+  state.activePhase = "discover";
+  saveState();
+  render();
+  document.querySelector("#discoverView").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+editVisitedButton.addEventListener("click", () => {
+  state.activePhase = "counter";
+  saveState();
+  render();
+  document.querySelector("#counterView").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+discoverSearchInput.addEventListener("input", (event) => {
+  state.discoverQuery = event.target.value;
+  renderDiscover();
 });
 
 selectAllButton.addEventListener("click", () => {

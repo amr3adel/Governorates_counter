@@ -238,43 +238,11 @@ body[data-theme="light"] .toggle-track span {
   transition: width 180ms ease;
 }
 
-.tabs {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin-top: 22px;
-  padding: 6px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(6, 18, 34, 0.38);
-}
-
-body[data-theme="light"] .tabs {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.tab-button {
-  min-width: 126px;
-  min-height: 40px;
-  border-color: transparent;
-  background: transparent;
-  color: var(--muted);
-}
-
-.tab-button.active {
-  background: var(--accent);
-  color: #061222;
-}
-
-body[data-theme="light"] .tab-button.active {
-  color: #fff;
-}
-
-.tab-view {
+.phase-view {
   display: none;
 }
 
-.tab-view.active {
+.phase-view.active {
   display: grid;
 }
 
@@ -482,6 +450,24 @@ body[data-theme="light"] .chip.active {
   font-weight: 700;
 }
 
+.submit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.primary-action {
+  min-width: min(100%, 280px);
+  border-color: transparent;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  color: #061222;
+}
+
+.primary-action:hover {
+  color: #061222;
+  filter: brightness(1.05);
+}
+
 .empty-state {
   margin: 0;
   padding: 14px;
@@ -495,6 +481,12 @@ body[data-theme="light"] .chip.active {
 .discover-panel {
   margin-top: 22px;
   padding: 28px;
+}
+
+.journey-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
 }
 
 .discover-header {
@@ -660,10 +652,6 @@ body[data-theme="light"] .chip.active {
     padding: 20px;
   }
 
-  .tabs {
-    display: grid;
-  }
-
   .discover-logo {
     width: 100%;
     min-height: 96px;
@@ -676,6 +664,11 @@ body[data-theme="light"] .chip.active {
   .actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .submit-row,
+  .journey-actions {
+    display: grid;
   }
 }
 

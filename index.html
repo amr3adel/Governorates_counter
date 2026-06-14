@@ -38,12 +38,7 @@
         </div>
       </section>
 
-      <nav class="tabs" aria-label="App sections">
-        <button class="tab-button active" type="button" id="counterTab" data-tab="counter" aria-selected="true">Counter</button>
-        <button class="tab-button" type="button" id="discoverTab" data-tab="discover" aria-selected="false">Discover</button>
-      </nav>
-
-      <section class="dashboard-grid tab-view active" id="counterView" aria-label="Governorates dashboard">
+      <section class="dashboard-grid phase-view active" id="counterView" aria-label="Governorates dashboard">
         <div class="tool-panel" aria-label="Governorate controls">
           <div class="toolbar">
             <label class="search-field">
@@ -61,6 +56,10 @@
 
           <div class="list-status" id="listStatus"></div>
           <div class="governorate-grid" id="governorateGrid"></div>
+
+          <div class="submit-row">
+            <button class="primary-action" type="button" id="submitVisitedButton">Submit visited governorates</button>
+          </div>
         </div>
 
         <aside class="insights-panel" aria-label="Trip planning insights">
@@ -99,7 +98,7 @@
         </aside>
       </section>
 
-      <section class="discover-panel tab-view" id="discoverView" aria-labelledby="discover-title">
+      <section class="discover-panel phase-view" id="discoverView" aria-labelledby="discover-title">
         <div class="discover-header">
           <div class="discover-logo" aria-label="Lets discover EGYPT">
             <span>Let's discover</span>
@@ -110,6 +109,10 @@
             <h2 id="discover-title">Places waiting for you</h2>
             <p class="discover-copy" id="discoverCopy">Historical and touristic highlights for governorates you have not visited yet.</p>
           </div>
+        </div>
+
+        <div class="journey-actions">
+          <button type="button" id="editVisitedButton">Edit visited governorates</button>
         </div>
 
         <div class="discover-toolbar">
