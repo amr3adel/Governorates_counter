@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Egypt Governorates Counter</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="summary-panel" aria-labelledby="app-title">
+        <div>
+          <p class="eyebrow">Arab Republic of Egypt</p>
+          <h1 id="app-title">Governorates Counter</h1>
+          <p class="intro">Track, search, and count Egypt's governorates in one focused view.</p>
+        </div>
+
+        <div class="counter-card" aria-live="polite">
+          <span class="counter-number" id="selectedCount">0</span>
+          <span class="counter-label">selected of <strong id="totalCount">27</strong></span>
+        </div>
+
+        <div class="progress" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+      </section>
+
+      <section class="tool-panel" aria-label="Governorate controls">
+        <div class="toolbar">
+          <label class="search-field">
+            <span>Search governorates</span>
+            <input id="searchInput" type="search" placeholder="Search by name or region">
+          </label>
+
+          <div class="actions" aria-label="Selection actions">
+            <button type="button" id="selectAllButton">Select all</button>
+            <button type="button" id="clearButton">Clear</button>
+          </div>
+        </div>
+
+        <div class="chips" id="regionFilters" aria-label="Filter by region"></div>
+
+        <div class="list-status" id="listStatus"></div>
+        <div class="governorate-grid" id="governorateGrid"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
