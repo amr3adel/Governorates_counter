@@ -193,6 +193,8 @@ const copy = {
     searchPlaces: "Search places",
     searchPlacesPlaceholder: "Search by governorate, place, or type",
     places: (count) => `${count} ${count === 1 ? "place" : "places"}`,
+    showPlaces: "Show places",
+    hidePlaces: "Hide places",
     beautifulWork: "Beautiful work. Every governorate is already marked visited.",
     noPlaces: "No places match this search yet.",
     learnMore: "Learn more",
@@ -251,6 +253,8 @@ const copy = {
     searchPlaces: "دور في الأماكن",
     searchPlacesPlaceholder: "دور باسم المحافظة أو المكان أو النوع",
     places: (count) => count === 1 ? "مكان واحد" : `${count} مكان`,
+    showPlaces: "اعرض الأماكن",
+    hidePlaces: "اخفي الأماكن",
     beautifulWork: "جميل جدًا. إنت اخترت كل المحافظات كأنك زرتها.",
     noPlaces: "مفيش أماكن مطابقة للبحث ده.",
     learnMore: "اعرف أكتر",
@@ -360,6 +364,8 @@ const state = {
 };
 
 const thumbnailCache = new Map();
+const expandedDiscoverGroups = new Set();
+const collapsedDiscoverGroups = new Set();
 let thumbnailObserver;
 
 const grid = document.querySelector("#governorateGrid");
@@ -707,6 +713,7 @@ function renderDiscover() {
   const cards = groups.flatMap((group) => group.places);
   const visited = state.selected.size;
   const missingCount = getMissingGovernorates().length;
+  const hasDiscoverSearch = state.discoverQuery.trim().length > 0;
   discoverGrid.innerHTML = "";
   discoverCount.textContent = t("places", cards.length);
   discoverSummary.innerHTML = `
@@ -728,64 +735,103 @@ function renderDiscover() {
     return;
   }
 
-  groups.forEach((group) => {
+  groups.forEach((group, index) => {
     const groupDisplay = governorateArabic[group.governorate] || { name: group.governorate, region: group.region };
     const section = document.createElement("section");
     section.className = "governorate-discover-group";
+    const panelId = `discover-group-${index}`;
+    const isExpanded = hasDiscoverSearch
+      ? !collapsedDiscoverGroups.has(group.governorate)
+      : expandedDiscoverGroups.has(group.governorate);
 
-    const heading = document.createElement("div");
+    const heading = document.createElement("button");
+    heading.type = "button";
     heading.className = "group-heading";
-    heading.innerHTML = `
-      <div>
-        <span>${isArabic() ? groupDisplay.region : group.region}</span>
-        <h3>${isArabic() ? groupDisplay.name : group.governorate}</h3>
-      </div>
-      <strong>${t("places", group.places.length)}</strong>
-    `;
+    heading.setAttribute("aria-expanded", String(isExpanded));
+    heading.setAttribute("aria-controls", panelId);
+
+    const titleWrap = document.createElement("span");
+    titleWrap.className = "group-title";
+
+    const region = document.createElement("span");
+    region.className = "group-region";
+    region.textContent = isArabic() ? groupDisplay.region : group.region;
+
+    const title = document.createElement("span");
+    title.className = "group-name";
+    title.textContent = isArabic() ? groupDisplay.name : group.governorate;
+
+    titleWrap.append(region, title);
+
+    const actionWrap = document.createElement("span");
+    actionWrap.className = "group-action";
+
+    const count = document.createElement("strong");
+    count.textContent = t("places", group.places.length);
+
+    const toggleText = document.createElement("span");
+    toggleText.textContent = isExpanded ? t("hidePlaces") : t("showPlaces");
+
+    actionWrap.append(count, toggleText);
+    heading.append(titleWrap, actionWrap);
+    heading.addEventListener("click", () => {
+      if (isExpanded) {
+        expandedDiscoverGroups.delete(group.governorate);
+        collapsedDiscoverGroups.add(group.governorate);
+      } else {
+        expandedDiscoverGroups.add(group.governorate);
+        collapsedDiscoverGroups.delete(group.governorate);
+      }
+      renderDiscover();
+    });
 
     const list = document.createElement("div");
     list.className = "group-card-grid";
+    list.id = panelId;
+    list.hidden = !isExpanded;
 
-    group.places.forEach((card) => {
-      const display = displayAttraction(card);
-      const govDisplay = governorateArabic[card.governorate] || { name: card.governorate };
-      const article = document.createElement("article");
-      article.className = `discover-card${card.featured ? " featured" : ""}`;
+    if (isExpanded) {
+      group.places.forEach((card) => {
+        const display = displayAttraction(card);
+        const govDisplay = governorateArabic[card.governorate] || { name: card.governorate };
+        const article = document.createElement("article");
+        article.className = `discover-card${card.featured ? " featured" : ""}`;
 
-      const media = document.createElement("div");
-      media.className = "discover-media loading";
-      media.dataset.loadingLabel = t("loadingImage");
-      const image = document.createElement("img");
-      image.alt = display.name;
-      image.loading = "lazy";
-      image.dataset.wikiTitle = getWikipediaTitle(card.url);
-      media.appendChild(image);
+        const media = document.createElement("div");
+        media.className = "discover-media loading";
+        media.dataset.loadingLabel = t("loadingImage");
+        const image = document.createElement("img");
+        image.alt = display.name;
+        image.loading = "lazy";
+        image.dataset.wikiTitle = getWikipediaTitle(card.url);
+        media.appendChild(image);
 
-      const meta = document.createElement("div");
-      meta.className = "discover-meta";
+        const meta = document.createElement("div");
+        meta.className = "discover-meta";
 
-      const type = document.createElement("span");
-      type.textContent = display.type;
+        const type = document.createElement("span");
+        type.textContent = display.type;
 
-      const governorate = document.createElement("span");
-      governorate.textContent = isArabic() ? govDisplay.name : card.governorate;
-      meta.append(type, governorate);
+        const governorate = document.createElement("span");
+        governorate.textContent = isArabic() ? govDisplay.name : card.governorate;
+        meta.append(type, governorate);
 
-      const title = document.createElement("h4");
-      title.textContent = display.name;
+        const title = document.createElement("h4");
+        title.textContent = display.name;
 
-      const description = document.createElement("p");
-      description.textContent = display.description;
+        const description = document.createElement("p");
+        description.textContent = display.description;
 
-      const link = document.createElement("a");
-      link.href = card.url;
-      link.target = "_blank";
-      link.rel = "noreferrer";
-      link.textContent = t("learnMore");
+        const link = document.createElement("a");
+        link.href = card.url;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.textContent = t("learnMore");
 
-      article.append(media, meta, title, description, link);
-      list.appendChild(article);
-    });
+        article.append(media, meta, title, description, link);
+        list.appendChild(article);
+      });
+    }
 
     section.append(heading, list);
     discoverGrid.appendChild(section);
@@ -925,6 +971,7 @@ showDiscoverButton.addEventListener("click", () => {
 
 discoverSearchInput.addEventListener("input", (event) => {
   state.discoverQuery = event.target.value;
+  collapsedDiscoverGroups.clear();
   renderDiscover();
 });
 

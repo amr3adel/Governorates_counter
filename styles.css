@@ -690,8 +690,7 @@ body[data-language="ar"] .next-item {
 
 .governorate-discover-group {
   display: grid;
-  gap: 12px;
-  padding: 16px;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(6, 18, 34, 0.24);
@@ -702,38 +701,95 @@ body[data-theme="light"] .governorate-discover-group {
 }
 
 .group-heading {
+  width: 100%;
+  min-height: 82px;
+  padding: 16px;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
+  text-align: left;
+  font: inherit;
 }
 
-.group-heading span {
+.group-heading:hover,
+.group-heading:focus-visible {
+  background: rgba(255, 159, 28, 0.08);
+}
+
+.group-heading:focus-visible {
+  outline: 2px solid rgba(255, 159, 28, 0.65);
+  outline-offset: -2px;
+}
+
+.group-title {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.group-region {
   color: var(--accent-dark);
   font-size: 0.78rem;
   font-weight: 850;
   text-transform: uppercase;
 }
 
-.group-heading h3 {
-  margin: 4px 0 0;
+.group-name {
+  color: var(--ink);
   font-size: 1.35rem;
+  font-weight: 900;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
-.group-heading strong {
+.group-action {
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.group-action strong {
   padding: 7px 9px;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--gold);
-  font-size: 0.78rem;
+}
+
+.group-action::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(255, 159, 28, 0.16);
+  color: var(--orange);
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.group-heading[aria-expanded="true"] .group-action::after {
+  content: "-";
 }
 
 .group-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.group-card-grid[hidden] {
+  display: none;
 }
 
 .discover-card {
