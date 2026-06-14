@@ -58,25 +58,38 @@
           <div class="governorate-grid" id="governorateGrid"></div>
         </div>
 
-        <aside class="map-panel" aria-label="Egypt travel map">
+        <aside class="insights-panel" aria-label="Trip planning insights">
           <div class="panel-heading">
             <div>
-              <p class="eyebrow">Visited map</p>
-              <h2>Egypt progress</h2>
+              <p class="eyebrow">Travel plan</p>
+              <h2>Clean progress view</h2>
             </div>
             <span class="remaining-pill" id="remainingPill">27 left</span>
           </div>
 
-          <div class="map-wrap" id="mapWrap"></div>
+          <div class="metric-stack" aria-label="Progress details">
+            <div class="metric-card">
+              <span class="metric-value" id="visitedMetric">0</span>
+              <span class="metric-label">visited</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value" id="leftMetric">27</span>
+              <span class="metric-label">still missing</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value" id="regionMetric">0/7</span>
+              <span class="metric-label">regions started</span>
+            </div>
+          </div>
 
-          <div class="route-card">
+          <div class="next-card">
             <div class="panel-heading compact">
               <div>
-                <p class="eyebrow">Route idea</p>
-                <h2>Still missing</h2>
+                <p class="eyebrow">Next up</p>
+                <h2>Missing governorates</h2>
               </div>
             </div>
-            <ol class="route-list" id="routeList"></ol>
+            <div class="next-list" id="nextList"></div>
           </div>
         </aside>
       </section>

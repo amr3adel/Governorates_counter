@@ -53,8 +53,11 @@ const clearButton = document.querySelector("#clearButton");
 const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
 const introText = document.querySelector("#introText");
-const mapWrap = document.querySelector("#mapWrap");
 const remainingPill = document.querySelector("#remainingPill");
+const visitedMetric = document.querySelector("#visitedMetric");
+const leftMetric = document.querySelector("#leftMetric");
+const regionMetric = document.querySelector("#regionMetric");
+const nextList = document.querySelector("#nextList");
 
 totalCount.textContent = governorates.length;
 nameInput.value = state.name;
@@ -100,7 +103,7 @@ function getFilteredGovernorates() {
 function getMissingGovernorates() {
   return governorates
     .filter((governorate) => !state.selected.has(governorate.name))
-    .sort((a, b) => a.y - b.y || a.x - b.x);
+    .sort((a, b) => a.region.localeCompare(b.region) || a.name.localeCompare(b.name));
 }
 
 function renderFilters() {
@@ -176,77 +179,36 @@ function renderTheme() {
   themeToggle.setAttribute("aria-pressed", String(isDark));
 }
 
-function renderMap() {
+function renderInsights() {
   const missing = getMissingGovernorates();
-  const routePoints = missing.map((governorate) => `${governorate.x},${governorate.y}`).join(" ");
-  const points = governorates
-    .map((governorate) => {
-      const isVisited = state.selected.has(governorate.name);
-      const labelX = governorate.x + 7;
-      const labelY = governorate.y - 7;
-      return `
-        <g class="map-marker" role="button" tabindex="0" data-name="${governorate.name}" aria-label="${governorate.name}">
-          <circle class="map-point${isVisited ? " visited" : ""}" cx="${governorate.x}" cy="${governorate.y}" r="4.7"></circle>
-          <text class="map-label" x="${labelX}" y="${labelY}">${governorate.name}</text>
-        </g>
-      `;
-    })
-    .join("");
-
-  mapWrap.innerHTML = `
-    <svg class="egypt-map" viewBox="0 0 340 470" role="img" aria-label="Stylized map of Egypt with governorate markers">
-      <path class="map-outline" d="M42 72 L203 72 L223 111 L258 113 L305 151 L280 191 L262 249 L237 297 L221 384 L181 448 L118 438 L96 367 L117 292 L121 229 L111 178 L70 144 Z"></path>
-      <path class="map-outline" d="M217 114 L302 153 L260 211 L228 175 Z"></path>
-      ${missing.length > 1 ? `<polyline class="map-route" points="${routePoints}"></polyline>` : ""}
-      ${points}
-    </svg>
-  `;
-
-  mapWrap.querySelectorAll(".map-marker").forEach((marker) => {
-    marker.addEventListener("click", () => {
-      const name = marker.dataset.name;
-      updateSelection(name, !state.selected.has(name));
-    });
-    marker.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        const name = marker.dataset.name;
-        updateSelection(name, !state.selected.has(name));
-      }
-    });
-  });
-}
-
-function renderRoute() {
-  const missing = getMissingGovernorates();
+  const visited = state.selected.size;
   const remaining = governorates.length - state.selected.size;
-  const routeCard = document.querySelector(".route-card");
-  let activeRouteList = document.querySelector("#routeList");
+  const regions = [...new Set(governorates.map((governorate) => governorate.region))];
+  const startedRegions = regions.filter((region) =>
+    governorates.some((governorate) => governorate.region === region && state.selected.has(governorate.name))
+  );
 
   remainingPill.textContent = remaining === 1 ? "1 left" : `${remaining} left`;
+  visitedMetric.textContent = visited;
+  leftMetric.textContent = remaining;
+  regionMetric.textContent = `${startedRegions.length}/${regions.length}`;
+  nextList.innerHTML = "";
 
   if (missing.length === 0) {
-    const item = document.createElement("p");
-    item.className = "empty-route";
-    item.textContent = "All governorates are marked visited.";
-    item.id = "routeList";
-    activeRouteList.replaceWith(item);
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "All governorates are marked visited.";
+    nextList.appendChild(empty);
     return;
   }
 
-  if (activeRouteList.tagName !== "OL") {
-    const list = document.createElement("ol");
-    list.className = "route-list";
-    list.id = "routeList";
-    activeRouteList.replaceWith(list);
-  }
-
-  activeRouteList = routeCard.querySelector("#routeList");
-  activeRouteList.innerHTML = "";
   missing.slice(0, 8).forEach((governorate) => {
-    const item = document.createElement("li");
-    item.innerHTML = `<strong>${governorate.name}</strong>${governorate.region}`;
-    activeRouteList.appendChild(item);
+    const item = document.createElement("button");
+    item.className = "next-item";
+    item.type = "button";
+    item.innerHTML = `<strong>${governorate.name}</strong><span>${governorate.region}</span>`;
+    item.addEventListener("click", () => updateSelection(governorate.name, true));
+    nextList.appendChild(item);
   });
 }
 
@@ -266,8 +228,7 @@ function render() {
   renderFilters();
   renderGovernorates();
   renderCounter();
-  renderMap();
-  renderRoute();
+  renderInsights();
 }
 
 searchInput.addEventListener("input", (event) => {
