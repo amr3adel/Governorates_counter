@@ -38,7 +38,12 @@
         </div>
       </section>
 
-      <section class="dashboard-grid" aria-label="Governorates dashboard">
+      <nav class="tabs" aria-label="App sections">
+        <button class="tab-button active" type="button" id="counterTab" data-tab="counter" aria-selected="true">Counter</button>
+        <button class="tab-button" type="button" id="discoverTab" data-tab="discover" aria-selected="false">Discover</button>
+      </nav>
+
+      <section class="dashboard-grid tab-view active" id="counterView" aria-label="Governorates dashboard">
         <div class="tool-panel" aria-label="Governorate controls">
           <div class="toolbar">
             <label class="search-field">
@@ -92,6 +97,30 @@
             <div class="next-list" id="nextList"></div>
           </div>
         </aside>
+      </section>
+
+      <section class="discover-panel tab-view" id="discoverView" aria-labelledby="discover-title">
+        <div class="discover-header">
+          <div class="discover-logo" aria-label="Lets discover EGYPT">
+            <span>Let's discover</span>
+            <strong>EGYPT</strong>
+          </div>
+          <div>
+            <p class="eyebrow">Phase two</p>
+            <h2 id="discover-title">Places waiting for you</h2>
+            <p class="discover-copy" id="discoverCopy">Historical and touristic highlights for governorates you have not visited yet.</p>
+          </div>
+        </div>
+
+        <div class="discover-toolbar">
+          <label class="search-field">
+            <span>Search places</span>
+            <input id="discoverSearchInput" type="search" placeholder="Search by governorate, place, or type">
+          </label>
+          <span class="discover-count" id="discoverCount">0 places</span>
+        </div>
+
+        <div class="discover-grid" id="discoverGrid"></div>
       </section>
     </main>
 
