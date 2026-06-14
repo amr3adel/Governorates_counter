@@ -38,7 +38,16 @@
         </div>
       </section>
 
-      <section class="dashboard-grid phase-view active" id="counterView" aria-label="Governorates dashboard">
+      <section class="welcome-panel phase-view active" id="welcomeView" aria-labelledby="welcome-title">
+        <div class="welcome-copy">
+          <p class="eyebrow">Start here</p>
+          <h2 id="welcome-title">Tell us where you've been, then discover what Egypt still has for you.</h2>
+          <p>First, mark the governorates you already visited. Then the app will build a focused discovery list for the governorates still waiting for you.</p>
+        </div>
+        <button class="primary-action" type="button" id="startJourneyButton">Start selecting governorates</button>
+      </section>
+
+      <section class="dashboard-grid phase-view" id="counterView" aria-label="Governorates dashboard">
         <div class="tool-panel" aria-label="Governorate controls">
           <div class="step-banner">
             <span class="step-number">Step 1</span>
@@ -106,6 +115,16 @@
         </aside>
       </section>
 
+      <section class="transition-panel phase-view" id="transitionView" aria-labelledby="transition-title">
+        <p class="eyebrow">Step 2</p>
+        <h2 id="transition-title">Great, here is what you are missing.</h2>
+        <p id="transitionCopy">Your discovery plan is ready.</p>
+        <div class="transition-actions">
+          <button type="button" id="backToVisitedButton">Edit visited governorates</button>
+          <button class="primary-action" type="button" id="showDiscoverButton">Show my discovery plan</button>
+        </div>
+      </section>
+
       <section class="discover-panel phase-view" id="discoverView" aria-labelledby="discover-title">
         <div class="discover-header">
           <div class="discover-logo" aria-label="Lets discover EGYPT">
@@ -122,6 +141,8 @@
         <div class="journey-actions">
           <button type="button" id="editVisitedButton">Edit visited governorates</button>
         </div>
+
+        <div class="discover-summary" id="discoverSummary"></div>
 
         <div class="discover-toolbar">
           <label class="search-field">

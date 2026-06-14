@@ -146,11 +146,14 @@ const state = {
   selected: new Set(savedState.selected),
   query: "",
   discoverQuery: "",
-  activePhase: savedState.activePhase || "counter",
+  activePhase: savedState.activePhase || "welcome",
   region: "All",
   name: savedState.name,
   theme: savedState.theme || "dark"
 };
+
+const thumbnailCache = new Map();
+let thumbnailObserver;
 
 const grid = document.querySelector("#governorateGrid");
 const searchInput = document.querySelector("#searchInput");
@@ -164,7 +167,10 @@ const listStatus = document.querySelector("#listStatus");
 const regionFilters = document.querySelector("#regionFilters");
 const selectAllButton = document.querySelector("#selectAllButton");
 const clearButton = document.querySelector("#clearButton");
+const startJourneyButton = document.querySelector("#startJourneyButton");
 const submitVisitedButton = document.querySelector("#submitVisitedButton");
+const backToVisitedButton = document.querySelector("#backToVisitedButton");
+const showDiscoverButton = document.querySelector("#showDiscoverButton");
 const editVisitedButton = document.querySelector("#editVisitedButton");
 const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
@@ -177,6 +183,8 @@ const nextList = document.querySelector("#nextList");
 const discoverGrid = document.querySelector("#discoverGrid");
 const discoverCount = document.querySelector("#discoverCount");
 const discoverCopy = document.querySelector("#discoverCopy");
+const discoverSummary = document.querySelector("#discoverSummary");
+const transitionCopy = document.querySelector("#transitionCopy");
 const phaseViews = document.querySelectorAll(".phase-view");
 
 totalCount.textContent = governorates.length;
@@ -190,10 +198,12 @@ function loadState() {
       selected: Array.isArray(value?.selected) ? value.selected : [],
       name: value?.name || "",
       theme: value?.theme === "light" ? "light" : "dark",
-      activePhase: value?.activePhase === "discover" ? "discover" : "counter"
+      activePhase: ["welcome", "counter", "transition", "discover"].includes(value?.activePhase)
+        ? value.activePhase
+        : "welcome"
     };
   } catch {
-    return { selected: [], name: "", theme: "dark", activePhase: "counter" };
+    return { selected: [], name: "", theme: "dark", activePhase: "welcome" };
   }
 }
 
@@ -243,6 +253,29 @@ function getDiscoverCards() {
     return [card.name, card.type, card.description, card.governorate, card.region]
       .some((value) => value.toLowerCase().includes(query));
   });
+}
+
+function getDiscoverGroups() {
+  const cards = getDiscoverCards();
+  const groups = new Map();
+
+  cards.forEach((card) => {
+    if (!groups.has(card.governorate)) {
+      groups.set(card.governorate, {
+        governorate: card.governorate,
+        region: card.region,
+        places: []
+      });
+    }
+    groups.get(card.governorate).places.push(card);
+  });
+
+  return [...groups.values()];
+}
+
+function getWikipediaTitle(url) {
+  const rawTitle = url.split("/wiki/")[1] || "";
+  return decodeURIComponent(rawTitle).replace(/_/g, " ");
 }
 
 function renderFilters() {
@@ -324,6 +357,14 @@ function renderPhase() {
   });
 }
 
+function renderTransition() {
+  const visited = state.selected.size;
+  const missing = governorates.length - visited;
+  transitionCopy.textContent = visited === 0
+    ? "You did not mark any governorates yet, so the discovery plan will include all of Egypt."
+    : `You visited ${visited} of ${governorates.length} governorates. Your plan will focus on the ${missing} still missing.`;
+}
+
 function renderInsights() {
   const missing = getMissingGovernorates();
   const visited = state.selected.size;
@@ -358,10 +399,17 @@ function renderInsights() {
 }
 
 function renderDiscover() {
-  const cards = getDiscoverCards();
+  const groups = getDiscoverGroups();
+  const cards = groups.flatMap((group) => group.places);
+  const visited = state.selected.size;
   const missingCount = getMissingGovernorates().length;
   discoverGrid.innerHTML = "";
   discoverCount.textContent = cards.length === 1 ? "1 place" : `${cards.length} places`;
+  discoverSummary.innerHTML = `
+    <div><strong>${visited}</strong><span>visited governorates</span></div>
+    <div><strong>${missingCount}</strong><span>still waiting</span></div>
+    <div><strong>${Math.round((visited / governorates.length) * 100)}%</strong><span>completed</span></div>
+  `;
   discoverCopy.textContent = missingCount === 0
     ? "You marked every governorate visited. The full discovery list is complete."
     : `Historical and touristic highlights across ${missingCount} unvisited governorates.`;
@@ -376,35 +424,116 @@ function renderDiscover() {
     return;
   }
 
-  cards.forEach((card) => {
-    const article = document.createElement("article");
-    article.className = `discover-card${card.featured ? " featured" : ""}`;
+  groups.forEach((group) => {
+    const section = document.createElement("section");
+    section.className = "governorate-discover-group";
 
-    const meta = document.createElement("div");
-    meta.className = "discover-meta";
+    const heading = document.createElement("div");
+    heading.className = "group-heading";
+    heading.innerHTML = `
+      <div>
+        <span>${group.region}</span>
+        <h3>${group.governorate}</h3>
+      </div>
+      <strong>${group.places.length} places</strong>
+    `;
 
-    const type = document.createElement("span");
-    type.textContent = card.type;
+    const list = document.createElement("div");
+    list.className = "group-card-grid";
 
-    const governorate = document.createElement("span");
-    governorate.textContent = card.governorate;
-    meta.append(type, governorate);
+    group.places.forEach((card) => {
+      const article = document.createElement("article");
+      article.className = `discover-card${card.featured ? " featured" : ""}`;
 
-    const title = document.createElement("h3");
-    title.textContent = card.name;
+      const media = document.createElement("div");
+      media.className = "discover-media loading";
+      const image = document.createElement("img");
+      image.alt = card.name;
+      image.loading = "lazy";
+      image.dataset.wikiTitle = getWikipediaTitle(card.url);
+      media.appendChild(image);
 
-    const description = document.createElement("p");
-    description.textContent = card.description;
+      const meta = document.createElement("div");
+      meta.className = "discover-meta";
 
-    const link = document.createElement("a");
-    link.href = card.url;
-    link.target = "_blank";
-    link.rel = "noreferrer";
-    link.textContent = "Learn more";
+      const type = document.createElement("span");
+      type.textContent = card.type;
 
-    article.append(meta, title, description, link);
-    discoverGrid.appendChild(article);
+      const governorate = document.createElement("span");
+      governorate.textContent = card.governorate;
+      meta.append(type, governorate);
+
+      const title = document.createElement("h4");
+      title.textContent = card.name;
+
+      const description = document.createElement("p");
+      description.textContent = card.description;
+
+      const link = document.createElement("a");
+      link.href = card.url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.textContent = "Learn more";
+
+      article.append(media, meta, title, description, link);
+      list.appendChild(article);
+    });
+
+    section.append(heading, list);
+    discoverGrid.appendChild(section);
   });
+
+  observeDiscoverImages();
+}
+
+function observeDiscoverImages() {
+  if (thumbnailObserver) {
+    thumbnailObserver.disconnect();
+  }
+
+  thumbnailObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      thumbnailObserver.unobserve(entry.target);
+      loadThumbnail(entry.target);
+    });
+  }, { rootMargin: "160px" });
+
+  discoverGrid.querySelectorAll(".discover-media img[data-wiki-title]").forEach((image) => {
+    thumbnailObserver.observe(image);
+  });
+}
+
+function loadThumbnail(image) {
+  const title = image.dataset.wikiTitle;
+  const media = image.closest(".discover-media");
+
+  if (thumbnailCache.has(title)) {
+    applyThumbnail(image, media, thumbnailCache.get(title));
+    return;
+  }
+
+  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+    .then((response) => response.ok ? response.json() : null)
+    .then((data) => {
+      const source = data?.thumbnail?.source || "";
+      thumbnailCache.set(title, source);
+      applyThumbnail(image, media, source);
+    })
+    .catch(() => {
+      thumbnailCache.set(title, "");
+      applyThumbnail(image, media, "");
+    });
+}
+
+function applyThumbnail(image, media, source) {
+  media.classList.remove("loading");
+  if (!source) {
+    media.classList.add("empty-media");
+    return;
+  }
+  image.src = source;
+  image.removeAttribute("data-wiki-title");
 }
 
 function updateSelection(name, isSelected) {
@@ -420,6 +549,7 @@ function updateSelection(name, isSelected) {
 function render() {
   renderTheme();
   renderPhase();
+  renderTransition();
   renderIntro();
   renderFilters();
   renderGovernorates();
@@ -445,18 +575,35 @@ themeToggle.addEventListener("click", () => {
   renderTheme();
 });
 
-submitVisitedButton.addEventListener("click", () => {
-  state.activePhase = "discover";
-  saveState();
-  render();
-  document.querySelector("#discoverView").scrollIntoView({ behavior: "smooth", block: "start" });
-});
-
-editVisitedButton.addEventListener("click", () => {
+startJourneyButton.addEventListener("click", () => {
   state.activePhase = "counter";
   saveState();
   render();
   document.querySelector("#counterView").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+submitVisitedButton.addEventListener("click", () => {
+  state.activePhase = "transition";
+  saveState();
+  render();
+  document.querySelector("#transitionView").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+function returnToCounter() {
+  state.activePhase = "counter";
+  saveState();
+  render();
+  document.querySelector("#counterView").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+backToVisitedButton.addEventListener("click", returnToCounter);
+editVisitedButton.addEventListener("click", returnToCounter);
+
+showDiscoverButton.addEventListener("click", () => {
+  state.activePhase = "discover";
+  saveState();
+  render();
+  document.querySelector("#discoverView").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 discoverSearchInput.addEventListener("input", (event) => {
